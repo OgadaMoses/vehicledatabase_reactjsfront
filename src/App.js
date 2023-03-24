@@ -14,7 +14,6 @@ function App() {
       Vehicle Shop
     </Typography>
   </Toolbar>
-
  </AppBar>
   <Vehiclelist />
     </div>
