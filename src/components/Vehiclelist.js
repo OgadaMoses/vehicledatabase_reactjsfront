@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { SERVER_URL }  from '../constants.js';
 import {DataGrid} from '@mui/x-data-grid';
+import Snackbar from '@mui/material/Snackbar';
 
 function Vehiclelist() {
+    const [open, setOpen] = useState(false);
     const [vehicles, setVehicles] = useState([]);
     const columns = [
         {field: 'brand', headerName: 'Brand', width: 200},
@@ -10,21 +12,59 @@ function Vehiclelist() {
         {field: 'color', headerName: 'Color', width: 200},
         {field: 'vyear', headerName: 'Year', width: 200},
         {field: 'price', headerName: 'Price', width: 150},
+        {
+            field: '_links.self.href',
+            headerName: '',
+            sortable: false,
+            filterable: false,
+            renderCell: row =>
+            <button
+             onClick={() => onDelClick(row.id)}>Delete
+             </button>
+        }
     ];
     
     useEffect(() => {
+        fetchVehicles();
+    }, []);
+
+    const fetchVehicles = ()=> {
         fetch(SERVER_URL + 'api/vehicles')
         .then(response => response.json ())
         .then(data => setVehicles (data._embedded.vehicles))
         .catch(err => console.error(err));
-    }, []);
+    }
+
+    const onDelClick = (url) => {
+        if (window.confirm("Are you sure you want to delete?")) {
+        fetch(url, {method: 'DELETE'})
+        .then(response => {
+            if (response.ok) {
+            fetchVehicles();
+            setOpen(true);
+            }
+            else {
+                alert('Something went wrong!');
+            }
+        })
+        .catch(err => console.error(err))
+     }
+    }
 
     return (
         <div style={{height: 500, width: '100%'}}>
             <DataGrid
             rows={vehicles}
             columns={columns}
+            disableRowSelectionOnClick={true}
             getRowId={row => row._links.self.href} />  
+
+            <Snackbar 
+            open={open}
+            autoHideDuration={2000}
+            onClose={() => setOpen (false)}
+            message= "Vehicle deleted"
+            />
         </div>
     );
 }
