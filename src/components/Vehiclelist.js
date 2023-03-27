@@ -31,7 +31,7 @@ function Vehiclelist() {
     }, []);
 
     const fetchVehicles = ()=> {
-        fetch(SERVER_URL + 'api/vehicles')
+        fetch(SERVER_URL + '/api/vehicles')
         .then(response => response.json ())
         .then(data => setVehicles (data._embedded.vehicles))
        
@@ -39,7 +39,7 @@ function Vehiclelist() {
     }
 
     const addVehicle = (vehicle) => {
-        fetch(SERVER_URL + 'api/vehicles', {
+        fetch(SERVER_URL + '/api/vehicles', {
             method: 'POST',
             header: {'Content-type': 'application/json'},
             body: JSON.stringify (vehicle)
