@@ -3,6 +3,8 @@ import { SERVER_URL }  from '../constants.js';
 import {DataGrid} from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 
+import AddVehicle from './AddVehicle.js';
+
 function Vehiclelist() {
     const [open, setOpen] = useState(false);
     const [vehicles, setVehicles] = useState([]);
@@ -23,7 +25,7 @@ function Vehiclelist() {
              </button>
         }
     ];
-    
+
     useEffect(() => {
         fetchVehicles();
     }, []);
@@ -32,8 +34,28 @@ function Vehiclelist() {
         fetch(SERVER_URL + 'api/vehicles')
         .then(response => response.json ())
         .then(data => setVehicles (data._embedded.vehicles))
-        .catch(err => console.error(err));
+       
+     .catch(err => console.error(err));
     }
+
+    const addVehicle = (vehicle) => {
+        fetch(SERVER_URL + 'api/vehicles', {
+            method: 'POST',
+            header: {'Content-type': 'application/json'},
+            body: JSON.stringify (vehicle)
+        })
+        .then (response=> {
+            if (response.ok) {
+               fetchVehicles();
+            }
+            else  {
+                alert ('Something went wrong!');
+            }
+        })
+        .catch(err => console.error(err))
+     }
+
+    
 
     const onDelClick = (url) => {
         if (window.confirm("Are you sure you want to delete?")) {
@@ -48,10 +70,12 @@ function Vehiclelist() {
             }
         })
         .catch(err => console.error(err))
-     }
+     } 
     }
 
     return (
+        <React.Fragment>
+            <AddVehicle addVehicle={addVehicle}/>
         <div style={{height: 500, width: '100%'}}>
             <DataGrid
             rows={vehicles}
@@ -66,6 +90,7 @@ function Vehiclelist() {
             message= "Vehicle deleted"
             />
         </div>
+        </React.Fragment>
     );
 }
 

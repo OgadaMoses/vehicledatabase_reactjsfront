@@ -21,11 +21,45 @@ function AddVehicle (props) {
         setOpen (false);
     };
 
-    
+    const handleChange = (event) => {
+        setVehicle({...vehicle, [event.target.name]:
+            event.target.value});
+    }
+
+    const handleSave = () => {
+        props.addVehicle(vehicle);
+        handleClose();
+     }
+
+
     return (
         <div>
-
-        </div>
+            <button onClick={handleClickOpen}>New Vehicle</button>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>New Vehicle</DialogTitle>
+                <DialogContent>
+                    <input placeholder="Brand" name="brand"
+                    value={vehicle.brand} onChange={handleChange} />
+                       <br/>
+                    <input placeholder="Model" name="model"
+                    value={vehicle.model} onChange={handleChange} /> 
+                      <br/>
+                    <input placeholder="Color" name="color"
+                    value={vehicle.color} onChange={handleChange} /> 
+                      <br/>
+                    <input placeholder ="Year" name="vyear"
+                    value={vehicle.vyear} onChange={handleChange} /> 
+                       <br/>
+                    <input placeholder="Price" name="price"
+                    value={vehicle.price} onChange={handleChange} />
+                     <br/>
+                </DialogContent>
+                <DialogActions>
+                    <button onClick={handleClose}>Cancel</button>
+                    <button onClick={handleSave}>Save</button>
+                </DialogActions>
+            </Dialog>
+       </div>
 
     );
 }
