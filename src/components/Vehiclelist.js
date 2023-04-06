@@ -4,8 +4,26 @@ import {DataGrid} from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 
 import AddVehicle from './AddVehicle.js';
+import EditVehicle from './EditVehicle.js';
 
 function Vehiclelist() {
+    const updateVehicle = (vehicle, link) => {
+        fetch(link,
+            {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(vehicle)
+            })
+            .then(response =>{
+                if (response.ok) {
+                    fetchVehicles();
+                }
+                else {
+                    alert('Something went wrong!');
+                }
+            })
+            .catch(err => console.error(err))
+     }
     const [open, setOpen] = useState(false);
     const [vehicles, setVehicles] = useState([]);
     const columns = [
@@ -14,6 +32,18 @@ function Vehiclelist() {
         {field: 'color', headerName: 'Color', width: 200},
         {field: 'vyear', headerName: 'Year', width: 200},
         {field: 'price', headerName: 'Price', width: 150},
+
+    {
+        field: '_links.vehicle.href',
+            headerName: '',
+            sortable: false,
+            filterable: false,
+            renderCell: row =>
+            <EditVehicle
+              data={row}
+              updateVehicle={updateVehicle} />
+        },
+
         {
             field: '_links.self.href',
             headerName: '',
@@ -71,6 +101,10 @@ function Vehiclelist() {
         })
         .catch(err => console.error(err))
      } 
+
+     
+
+
     }
 
     return (

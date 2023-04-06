@@ -12,6 +12,13 @@ function EditVehicle (props) {
     });
 
     const handleClickOpen = () => {
+        setVehicle({
+            brand: props.data.row.brand,
+            model: props.data.row.model,
+            color: props.data.row.color,
+            vyear: props.data.row.vyear,
+            price: props.data.row.price
+        })
         setOpen (true);
     };
 
@@ -25,7 +32,8 @@ function EditVehicle (props) {
     }
 
     const handleSave = () => {
-
+        props.updateVehicle(vehicle, props.data.id);
+        handleClose();
     }
 
     return (
