@@ -117,7 +117,8 @@ function Vehiclelist() {
             rows={vehicles}
             columns={columns}
             disableRowSelectionOnClick={true}
-            getRowId={row => row._links.self.href} />  
+            getRowId={row => row._links.self.href} /> 
+            components={{Toolbar: CustomToolbar}} 
 
             <Snackbar 
             open={open}
