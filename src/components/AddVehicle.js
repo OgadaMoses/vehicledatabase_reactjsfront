@@ -3,6 +3,8 @@ import Dialog  from '@mui/material/Dialog';
 import DialogActions  from '@mui/material/DialogActions';
 import DialogContent  from '@mui/material/DialogContent';
 import DialogTitle  from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+
 
 function AddVehicle (props) {
     const [open, setOpen] = useState(false);
@@ -34,7 +36,8 @@ function AddVehicle (props) {
 
     return (
         <div>
-            <button onClick={handleClickOpen}>New Vehicle</button>
+            <Button variant="contained" onClick={handleClickOpen}>New Vehicle
+            </Button>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>New Vehicle</DialogTitle>
                 <DialogContent>

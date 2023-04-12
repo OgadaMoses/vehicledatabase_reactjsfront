@@ -64,16 +64,16 @@ function Vehiclelist() {
 
     const fetchVehicles = ()=> {
         fetch(SERVER_URL + '/api/vehicles')
-        .then(response => response.json ())
+        .then(response => response.txt ())
         .then(data => setVehicles (data._embedded.vehicles))
        
      .catch(err => console.error(err));
     }
 
     const addVehicle = (vehicle) => {
-        fetch(SERVER_URL + '/api/vehicles', {
+        fetch(SERVER_URL + 'api/vehicles', {
             method: 'POST',
-            header: {'Content-type': 'application/json'},
+            header: {'Content-type': 'application/text'},
             body: JSON.stringify (vehicle)
         })
         .then (response=> {
@@ -117,8 +117,10 @@ function Vehiclelist() {
             rows={vehicles}
             columns={columns}
             disableRowSelectionOnClick={true}
-            getRowId={row => row._links.self.href} /> 
+            getRowId={row => row._links.self.href} 
             components={{Toolbar: CustomToolbar}} 
+            /> 
+            
 
             <Snackbar 
             open={open}
@@ -129,15 +131,17 @@ function Vehiclelist() {
         </div>
         </React.Fragment>
     );
+
+    function CustomToolbar() {
+        return (
+            <GridToolbarContainer
+               className={gridClasses.toolbarContainer}>
+               <GridToolbarExport />
+            </GridToolbarContainer>
+        );
+    }
 }
 
-function CustomToolbar() {
-    return (
-        <GridToolbarContainer
-        className={gridClasses.toolbarContainer}>
-           <GridToolbarExport />
-        </GridToolbarContainer>
-    );
-}
+
 
 export default Vehiclelist;
