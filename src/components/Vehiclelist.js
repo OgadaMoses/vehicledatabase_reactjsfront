@@ -4,6 +4,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import {GridToolbarContainer, GridToolbarExport,gridClasses} 
   from '@mui/x-data-grid'; 
+  import Stack from '@mui/material/Stack';
 
 import AddVehicle from './AddVehicle.js';
 import EditVehicle from './EditVehicle.js';
@@ -13,8 +14,8 @@ function Vehiclelist() {
         fetch(link,
             {
                 method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(vehicle)
+                headers: {'Content-Type': 'text/plain'},
+                body: `<html><body><h1>${vehicle}</h1></body></html>`
             })
             .then(response =>{
                 if (response.ok) {
@@ -111,7 +112,9 @@ function Vehiclelist() {
 
     return (
         <React.Fragment>
+            <Stack mt={2} mb={2}> 
             <AddVehicle addVehicle={addVehicle}/>
+             </Stack> 
         <div style={{height: 500, width: '100%'}}>
             <DataGrid
             rows={vehicles}
