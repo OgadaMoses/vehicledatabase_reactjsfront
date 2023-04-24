@@ -5,6 +5,8 @@ import Snackbar from '@mui/material/Snackbar';
 import {GridToolbarContainer, GridToolbarExport,gridClasses} 
   from '@mui/x-data-grid'; 
   import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import AddVehicle from './AddVehicle.js';
 import EditVehicle from './EditVehicle.js';
@@ -53,9 +55,9 @@ function Vehiclelist() {
             sortable: false,
             filterable: false,
             renderCell: row =>
-            <button
-             onClick={() => onDelClick(row.id)}>Delete
-             </button>
+            <IconButton onClick={() => onDelClick(row.id)}>
+                <DeleteIcon color="error" />
+             </IconButton>
         }
     ];
 
