@@ -3,6 +3,7 @@ import {SERVER_URL} from '../constants.js';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import Vehiclelist from './Vehiclelist';
 
 function Login (){
     const [user, setUser] = useState({
@@ -16,6 +17,28 @@ function Login (){
         [event.target.name]: event.target.value});
     }
 
+    const login = () => {
+        fetch(SERVER_URL + 'login',{
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(user)
+        })
+        .then(res => {
+            const jwtToken = res.headers.get
+             ('Authorization');
+            if (jwtToken !== null) {
+                sessionStorage.setItem("jwt", jwtToken);
+                setAuth(true);
+            }
+        })
+        .catch(err => console.error(err))
+
+    }
+
+    if (isAuthenticated) {
+        return <Vehiclelist />;
+    }
+     else {
     return (
         <div> 
             <Stack spacing={2} alignItems='center' mt={2}>
@@ -37,6 +60,7 @@ function Login (){
             </Stack>
         </div>
     );
+  }
 } 
 
 export default Login;

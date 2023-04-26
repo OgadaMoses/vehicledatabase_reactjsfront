@@ -66,11 +66,14 @@ function Vehiclelist() {
     }, []);
 
     const fetchVehicles = ()=> {
-        fetch(SERVER_URL + '/api/vehicles')
-        .then(response => response.txt ())
+        const token = sessionStorage.getItem("jwt");
+
+        fetch(SERVER_URL + '/api/vehicles', {
+           headers: {'Authorization' : token}
+        })
+        .then(response => response.json ())
         .then(data => setVehicles (data._embedded.vehicles))
-       
-     .catch(err => console.error(err));
+        .catch(err => console.error(err));
     }
 
     const addVehicle = (vehicle) => {
@@ -106,9 +109,6 @@ function Vehiclelist() {
         })
         .catch(err => console.error(err))
      } 
-
-     
-
 
     }
 
