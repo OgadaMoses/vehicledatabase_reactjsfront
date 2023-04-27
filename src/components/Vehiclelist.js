@@ -13,11 +13,16 @@ import EditVehicle from './EditVehicle.js';
 
 function Vehiclelist() {
     const updateVehicle = (vehicle, link) => {
+        const token = sessionStorage.getItem("jwt");
+
         fetch(link,
             {
                 method: 'PUT',
-                headers: {'Content-Type': 'text/plain'},
-                body: `<html><body><h1>${vehicle}</h1></body></html>`
+                headers: {'Content-Type': 'application/json',
+                'Authorization' :token
+            },
+            body: JSON.stringify(vehicle)
+                
             })
             .then(response =>{
                 if (response.ok) {
@@ -77,9 +82,13 @@ function Vehiclelist() {
     }
 
     const addVehicle = (vehicle) => {
+        const token = sessionStorage.getItem("jwt");
+
         fetch(SERVER_URL + 'api/vehicles', {
             method: 'POST',
-            header: {'Content-type': 'application/text'},
+            header: {'Content-type': 'application/json',
+            'Authorization' :token
+           },
             body: JSON.stringify (vehicle)
         })
         .then (response=> {
@@ -97,7 +106,12 @@ function Vehiclelist() {
 
     const onDelClick = (url) => {
         if (window.confirm("Are you sure you want to delete?")) {
-        fetch(url, {method: 'DELETE'})
+            const token = sessionStorage.getItem("jwt");
+
+        fetch(url, {
+            method: 'DELETE',
+            headers: {'Authorization' :token}
+        })
         .then(response => {
             if (response.ok) {
             fetchVehicles();
